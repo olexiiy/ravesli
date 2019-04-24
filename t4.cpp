@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
-
+ 
 using Word = std::string;
-
+ 
 // создаем класс перечесления Monster  
 enum class MonsterTypes
 {
@@ -12,20 +12,20 @@ enum class MonsterTypes
 	MONSTER_ORC,
 	MONSTER_TROLL
 };
-
+ 
  // создаем структуру с перечеслением Monster  
-
+ 
 struct PresentMonster
 {
 	MonsterTypes    type;
 	std::string      name;
 	int			    health;
 };
-
+ 
 void printMonster(MonsterTypes type)
 {
 	using namespace std;
-
+ 
 	cout << "This ";
 	if (type == MonsterTypes::MONSTER_OGRE)
 		std::cout << "OGRE";
@@ -39,10 +39,10 @@ void printMonster(MonsterTypes type)
 		std::cout << "TROLL";
 	else
 		std::cout << "Who knows!";
-
+ 
 	
 }
-
+ 
 Word getName()	// Вводим имя монстра
 {
 	std::string nameUser;
@@ -50,8 +50,8 @@ Word getName()	// Вводим имя монстра
 	std::cin.ignore(32767, '\n');
 	return nameUser;
 }
-
-
+ 
+ 
 int main()
 {
 	using namespace std;
@@ -60,7 +60,7 @@ int main()
 	int inputType;
 	std::cin >> inputType;
 	goblin.type = static_cast<MonsterTypes>(inputType);
-	
+	std::cin.ignore();
 	goblin.name = getName();
 	
 	std::cin >> goblin.health;
@@ -68,8 +68,9 @@ int main()
 	std::cout << " is named " << (goblin.name) << "and has " << goblin.health << " health";
 	
 	
-
-
+ 
+ 
 	return 0;
-
+ 
 }
+ 
