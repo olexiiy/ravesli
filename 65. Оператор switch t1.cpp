@@ -14,31 +14,31 @@ void calculate(int x, int y, char op)
 	switch (op) {
 	case '+':
 	{
-		cout << x << op << y << "=" << x + y << endl;
+		cout << x << " " << op << " " << y << " = " << x + y << endl;
 		break;
 	}
 	case '-':
 	{
-		cout << x << op << y << "=" << x - y << endl;
+		cout << x << " " << op << " " << y << " = " << x - y << endl;
 		break;
 	}
 	case '*':
 	{
-		cout << x << op << y << "=" << x * y << endl;
+		cout << x << " " << op << " " << y << " = " << x * y << endl;
 		break;
 	}
 	case '/':
 	{
-		cout << x << op << y << "=" << x / y << endl;
+		cout << x << " " << op << " " << y << " = " << x / y << endl;
 		break;
 	}
 	case '%':
 	{
-		cout << x << op << y << "=" << x % y << endl;
+		cout << x << " " << op << " " << y << " = " << x % y << endl;
 		break;
 	}
 	default:
-		cout << "Wrong input";
+		cout << "Wrong input" << endl;
 		break;
 	}
 
