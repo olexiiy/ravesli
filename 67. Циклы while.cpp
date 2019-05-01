@@ -91,3 +91,43 @@ int main()
 
 	return 0;
 }
+
+/*
+Ромб из чисел
+*/
+
+
+
+
+int main()
+{
+	int outer = 1;
+	while (outer <= 9)
+	{
+		int inner = 9;                                          // 0
+		while (inner >= 1)									   // 1 0
+		{
+			inner--;                                         // 2 1 0
+			if (inner >= outer)                          // 3 2 1 0
+				std::cout << ' ';                         // 4 3 2 1 0
+			else  std::cout << inner << " ";
+		}// 5 4 3 2 1 0
+		std::cout << "\n";                       // 6 5 4 3 2 1 0
+		++outer;                                  // 7 6 5 4 3 2 1 0
+	}                                                 // 8 7 6 5 4 3 2 1 0
+	int auter = 8;                             // 8 7 6 5 4 3 2 1 0
+	while (auter >= 1)                       // 7 6 5 4 3 2 1 0
+	{                                                   // 6 5 4 3 2 1 0
+		int enner = 9;                            // 5 4 3 2 1 0
+		while (enner >= 1)                      // 4 3 2 1 0
+		{
+			enner--;                                 // 3 2 1 0
+			if (enner >= auter)                      // 2 1 0
+				std::cout << ' ';                         // 1 0
+			else  std::cout << enner << " ";
+		}  // 0
+		std::cout << "\n";
+		--auter;
+	}
+	return 0;
+}
