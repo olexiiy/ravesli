@@ -15,6 +15,7 @@ Maruna was not found.
 */
 
 #include <iostream>
+#include <string>
 
 using namespace std;
 
