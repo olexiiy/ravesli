@@ -5,25 +5,22 @@
 */
 
 #include <iostream>
-
-// Используем в качестве параметров ссылки, чтобы иметь возможность изменить значения исходных аргументов
-void swap(int &x, int &y)
+// используем ссылку, чтобы иметь возможность изменять значение
+void change (int &x, int &y)
 {
     x = x + y;
     y = x - y;
     x = x - y;
 }
-
 int main()
 {
-    int x = 5;
-    int y = 7;
-    swap(x, y);
-
-    if (x == 7 && y == 5)
-        std::cout << "It works!";
-    else
-        std::cout << "It's broken!";
-
+    using namespace std;
+    int x = 1;
+    int y = 100;
+    change(x, y);
+    if (x == 100 && y == 1)
+        cout << "it's work";
+    else 
+        cout << "don't work";
     return 0;
 }
