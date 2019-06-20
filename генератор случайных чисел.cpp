@@ -16,7 +16,7 @@ int main()
 {
 	std::mt19937 mersenne(static_cast<unsigned int>(time(0))); // инициализируем Вихрь Мерсенна стартовым числом основаным не времени
 	srand(static_cast<int>(mersenne()));  // в качестве стартового числа используем Вихрь Мерсенна случайным стартовым числом//
-	rand();
+	rand();  //
 	
 	
 	for (int count = 0; count < 200; ++count)
