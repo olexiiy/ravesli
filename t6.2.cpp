@@ -34,86 +34,81 @@ Anton got a grade of 12
 #include <string>
 #include <utility>
 
-struct BookMark
+struct Student
 {
-     std::string name;
-     int mark;
+	std::string name{};
+	int mark{};
 };
-
-void sortMark(BookMark *students, int length)
+int getValue()
 {
-    // Перебираем каждый элемент массива
-    for (int startIndex = 0; startIndex < length; ++startIndex)
-    {
-        // largestIndex - это индекс наибольшего элемента, который мы обнаружили до сих пор
-        int largestIndex = startIndex;
+	while (true) // цикл продолжается до тех пор, пока пользователь не введёт корректное значение
+	{
+		
+		int a;
+		std::cin >> a;
 
-        // Ищем наибольший элемент среди оставшихся элементов массива (начиная со startIndex+1)
-        for (int currentIndex = startIndex + 1; currentIndex < length; ++currentIndex)
-        {
-            // Если текущий элемент больше нашего предыдущего наибольшего элемента,
-            if (students[currentIndex].mark > students[largestIndex].mark)
-                // то тогда это наш новый наибольший элемент в этой итерации
-                largestIndex = currentIndex;
-        }
+		// Проверка на предыдущее извлечение
+		if (std::cin.fail()) // если предыдущее извлечение оказалось неудачным,
+		{
+			std::cin.clear(); // то возвращаем cin в 'обычный' режим работы
+			std::cin.ignore(32767, '\n'); // и удаляем значения предыдущего ввода из входного буфера
+			std::cout << "Oops, that input is invalid.  Please try again.\n";
+		}
+		else
+		{
+			std::cin.ignore(32767, '\n'); // удаляем лишние значения
 
-        // Меняем местами наш стартовый элемент с найденным наибольшим элементом
-        std::swap(students[startIndex], students[largestIndex]);
-    }
+			return a;
+		}
+	}
 }
-
-void sortNames(BookMark *students, int length)
+void input(Student *array, int number)
 {
-    // Перебираем каждый элемент массива
-    for (int startIndex = 0; startIndex < length; ++startIndex)
-    {
-        // largestIndex - это индекс наибольшего элемента, который мы обнаружили до сих пор
-        int largestIndex = startIndex;
-
-        // Ищем наибольший элемент среди оставшихся элементов массива (начиная со startIndex+1)
-        for (int currentIndex = startIndex + 1; currentIndex < length; ++currentIndex)
-        {
-            // Если текущий элемент больше нашего предыдущего наибольшего элемента,
-            if (students[currentIndex].name < students[largestIndex].name)
-                // то тогда это наш новый наибольший элемент в этой итерации
-                largestIndex = currentIndex;
-        }
-
-        // Меняем местами наш стартовый элемент с найденным наибольшим элементом
-        std::swap(students[startIndex], students[largestIndex]);
-    }
+	for (int index = 0; index < number; ++index)
+	{
+		std::cout << "Enter name #" << index + 1 << " ";
+		std::cin >> array[index].name;
+		std::cout << "Enter a mark: ";
+		array[index].mark = getValue();
+	}
+}
+void sortArray(Student *array, int number)
+{
+	for (int startIndex = 0; startIndex < number - 1; ++startIndex)
+	{
+		// Перебираем каждый элемент массива до последнего элемента (не включительно)
+		// Последний элемент не имеет пары для сравнения
+		for (int currentIndex = 0; currentIndex < number - 1; ++currentIndex)
+		{
+			// Если текущий элемент больше элемента после него, то меняем их местами
+			if (array[currentIndex].mark < array[currentIndex + 1].mark)
+				// то запоминаем его
+				std::swap(array[currentIndex], array[currentIndex + 1]);
+		}
+	}
+}
+void output(Student* array, int number)
+{
+	for (int index{}; index < number; ++index)
+	{
+		std::cout << array[index].name << " got a grade of " << array[index].mark;
+		std::cout << std::endl;
+	}
 }
 int main()
 {
-    using namespace std;
-    cout << "How much students do you have: ";
-    int number{};
-    do
-        {
-            std::cout << "How many students do you want to enter? ";
-            std::cin >> number;
-        } while (number <= 1);
+	using namespace std;
+	cout << "How much students do you have ?  ";
+	//вводим количестиво людей в массиве
+	int number = getValue();
+	//создаем указаное количество массивов
+	Student *array = new Student[number];
+	//вводим каждоем имя и оценку
+	input(array, number);
+	// сортируем массив
+	sortArray(array, number);
+	// Теперь, когда весь массив отсортирован - выводим его на экран
+	output(array, number);
 
-   BookMark *students = new (std::nothrow) BookMark[number];
-   for (int startIndex = 0; startIndex < number; ++startIndex)
-       {
-          cout <<  "Enter name #" << (startIndex + 1) << ":";
-          std::cin >> students[startIndex].name;
-          std::cout << "Enter grade #" << startIndex + 1 << ": ";
-          std::cin >> students[startIndex].mark;
-        }
-   sortMark(students, number);
-   for (int startIndex = 0; startIndex < number; ++startIndex)
-       {
-          cout << students[startIndex].name << " got a grade of " << students[startIndex].mark << endl;
-        }
-   cout << endl;
-   cout << endl;
-   sortNames(students, number);
-   for (int startIndex = 0; startIndex < number; ++startIndex)
-       {
-          cout << students[startIndex].name << " got a grade of " << students[startIndex].mark << endl;
-        }
-   delete[] students;
-   return 0;
+	return 0;
 }
