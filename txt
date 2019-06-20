@@ -1,0 +1,15 @@
+#include <iostream>
+#include <string>
+
+struct Studen
+{
+    std::string name{};
+    int mark{};
+};
+
+int main()
+{
+    using namespace std;
+    cout << "Hello World!" << endl;
+    return 0;
+}
