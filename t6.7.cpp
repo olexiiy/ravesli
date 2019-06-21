@@ -1,3 +1,5 @@
+//blackjack
+
 #include <iostream>
 #include <array>
 #include <ctime> // раскомментируйте, если используете Code::Blocks
