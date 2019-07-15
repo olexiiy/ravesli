@@ -44,19 +44,16 @@ private:
 public:
 
     // Конструктор с параметром radius (для color предоставлено значение по умолчанию)
-Ball(double radius)
-{
-    m_color = "red";
-    m_radius = radius;
-}
-
-    // Конструктор с параметрами color и radius
-    // Обрабатываются случаи: не предоставлено никаких параметров, только color, color + radius
-Ball(const std::string &color="red", double radius=20.0)
-{
-    m_color = color;
-    m_radius = radius;
-}   // Неявный конструктор не создастся, так как мы уже определили свой конструктор
+// Обрабатываются случаи: не предоставлено никаких параметров, только color, color + radius
+	Ball(std::string color = "red", double radius = 20.0)	{
+		m_color = color;
+		m_radius = radius;
+	}
+// Обрабатываются случаи: только radius, radius + color
+	Ball(double radius, std::string color = "red")	{
+		m_color = color;
+		m_radius = radius;
+	}   // Неявный конструктор не создастся, так как мы уже определили свой конструктор
     void print ()
     {
         std::cout << "color: " << m_color << ", radius: " << m_radius << std::endl;
