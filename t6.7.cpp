@@ -1,6 +1,10 @@
 //blackjack
-
 #include <iostream>
+#include "timer.h"
+/*Timer t1;
+ std::cout << "elapsed: " << t1.elapsed() << '\n';*/
+
+
 #include <array>
 #include <ctime> // раскомментируйте, если используете Code::Blocks
 #include <random> // для std::random_device и std::mt19937
@@ -87,7 +91,7 @@ int getRandomNumber(long min, long max)
     int randomNumber = static_cast<int>(rand() * fraction * (max - min + 1) + min); // генерируем случайное число в заданом диапазоне
     return randomNumber; // возвращаем случайное число в заданом диапазоне
 }
-void shuffleDeck(std::array<Card, 52> & deck)
+void shuffleDeck(std::array<Card, 52> &deck)
 {
     // Перебираем каждую карту в колоде
     for (int index = 0; index < 52; ++index)
@@ -160,6 +164,7 @@ bool playBlackjack(const std::array<Card, 52> & deck)
             break;
 
         playerTotal += getCardValue(*cardPtr++);
+
     }
 
     // Если игрок не проиграл и у него не больше 21, то тогда дилер получает карты до тех пор, пока у него не получится в сумме 17
@@ -203,6 +208,7 @@ int main()
     std::mt19937 mersenne(static_cast<unsigned int>(time(0))); // инициализируем Вихрь Мерсенна стартовым числом основаным не времени
     srand(static_cast<int>(mersenne()));  // в качестве стартового числа используем Вихрь Мерсенна случайным стартовым числом//
     rand();  //
+    Timer t;
     std::array<Card, 52> deck;
 
     int card = 0;
@@ -214,7 +220,9 @@ int main()
             card++;
         }
     getRandomNumber(1, 52);// случайная карта
-    printDeck(deck);
+    std::cout << "elapsed: " << t.elapsed() << '\n';
+
+    // printDeck(deck);
     shuffleDeck(deck);
     printDeck(deck);
     if (playBlackjack(deck))
@@ -228,3 +236,4 @@ int main()
     return 0;
 
 }
+
