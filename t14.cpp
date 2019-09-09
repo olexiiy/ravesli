@@ -16,7 +16,7 @@ Your fraction has an invalid denominator.
 */
 
 #include <iostream>
- #include <stdexcept>
+#include <stdexcept>
 bool again()
 {
     while (true) // цикл продолжается до тех пор, пока пользователь не введёт корректное значение
@@ -126,9 +126,10 @@ int main()
                 Fraction fraction (numerator, denominator);
                 std::cout << "Your fraction is: " << fraction << '\n';
             }
-            catch (std::exception&)
+            catch (std::exception& exp)
                 {
                     std::cout << "Your fraction has an invalid denominator.\n";
+                    std::cout << exp.what() << std::endl;
                 }
 
 
