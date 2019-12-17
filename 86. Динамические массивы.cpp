@@ -30,75 +30,166 @@ Name #5: Mark
 */
 
 #include <iostream>
-#include <algorithm>
 #include <string>
-#include <cstring>
-using namespace std;
-string  getName()	// Вводим имя
-{
-    std::string nameUser;
-    std::getline(std::cin, nameUser);
-    return nameUser;
-}
-unsigned int getValue()
+#include <utility>
+
+bool again()
 {
     while (true) // цикл продолжается до тех пор, пока пользователь не введёт корректное значение
     {
-        unsigned int a;
+        std::cout << "\nWould you like to play again (y/n)?";
+        char answer;
+        std::cin >> answer;
+
+        // Переменные типа char могут принимать любые символы из пользовательского ввода, поэтому нам не стоит беспокоиться по поводу возникновения неудачного извлечения
+
+        std::cin.ignore(32767, '\n'); // удаляем лишний балласт
+
+        // Выполняем проверку пользовательского ввода
+        if (answer == 'y')
+            return true; // возвращаем обратно в caller
+            //exit(0);
+        else if (answer == 'n')
+            return false; // возвращаем обратно в caller
+        else // в противном случае, сообщаем пользователю что что-то пошло не так
+            std::cout << "Oops, that input is invalid.  Please try again.\n";
+    }
+}
+
+int getValue()
+{
+    while (true) // цикл продолжается до тех пор, пока пользователь не введёт корректное значение
+    {
+		      
+        int a;
         std::cin >> a;
 
         // Проверка на предыдущее извлечение
         if (std::cin.fail()) // если предыдущее извлечение оказалось неудачным,
         {
             std::cin.clear(); // то возвращаем cin в 'обычный' режим работы
-            std::cin.ignore(32767,'\n'); // и удаляем значения предыдущего ввода из входного буфера
+            std::cin.ignore(32767, '\n'); // и удаляем значения предыдущего ввода из входного буфера
             std::cout << "Oops, that input is invalid.  Please try again.\n";
         }
         else
         {
-            std::cin.ignore(32767,'\n'); // удаляем лишние значения
+            std::cin.ignore(32767, '\n'); // удаляем лишние значения
 
             return a;
         }
+
     }
 }
-void  arraySort (string *array, int length)
+
+std::string getString()
 {
-    // Перебираем каждый элемент массива
-        // (кроме последнего, он уже будет отсортирован к тому времени, когда мы до него доберёмся)
-        for (int startIndex = 0; startIndex < length - 1; ++startIndex)
+    while (true) // цикл продолжается до тех пор, пока пользователь не введёт корректное значение
+    {
+
+        std::string a;
+        std::cin >> a;
+
+        // Проверка на предыдущее извлечение
+        if (std::cin.fail()) // если предыдущее извлечение оказалось неудачным,
         {
-            // Перебираем каждый элемент массива до последнего элемента (не включительно)
-            // Последний элемент не имеет пары для сравнения
-            for (int currentIndex = 0; currentIndex < length - 1; ++currentIndex)
-            {
-                // Если текущий элемент больше элемента после него, то меняем их местами
-                if (array[currentIndex] > array[currentIndex + 1])
-                    // то запоминаем его
-                     std::swap(array[currentIndex], array[currentIndex + 1]);
-            }
+            std::cin.clear(); // то возвращаем cin в 'обычный' режим работы
+            std::cin.ignore(32767, '\n'); // и удаляем значения предыдущего ввода из входного буфера
+            std::cout << "Oops, that input is invalid.  Please try again.\n";
+        }
+        else
+        {
+            std::cin.ignore(32767, '\n'); // удаляем лишние значения
+
+            return a;
+        }
+
     }
 }
+void input_n (std::string* names, int quantity)
+{
+    for (int num = 0; num < quantity; ++num)
+    {
+        std::cout << "Enter name #" << (num + 1) << ": ";
+        names[num] = getString();
+    }
+}
+
+void sort_n(std::string *names, int quantity)
+{
+    for (int iteration = 0; iteration < quantity - 1; ++iteration)
+    {
+        // Помните о том, что последний элемент будет отсортирован и в каждой последующей итерации цикла,
+        // поэтому наша сортировка «заканчивается» на один элемент раньше
+        int endOfArrayIndex(quantity - iteration);
+
+        bool swapped(false); // отслеживаем, были ли выполнены замены в этой итерации
+
+        // Перебираем каждый элемент массива до последнего (не включительно)
+        // Последний элемент не имеет пары для сравнения
+        for (int currentIndex = 0; currentIndex < endOfArrayIndex - 1; ++currentIndex)
+        {
+            // Если текущий элемент больше элемента после него, то меняем их местами
+            if (names[currentIndex] > names[currentIndex + 1])
+            {
+                // Выполняем замену
+                std::swap(names[currentIndex], names[currentIndex + 1]);
+                swapped = true;
+            }
+        }
+
+        // Если в этой итерации не выполнилось ни одной замены, то цикл можно завершать
+        if (!swapped)
+        {
+            // Выполнение начинается с 0-ой итерации, но мы привыкли считать, начиная с 1, поэтому для подсчёта количества итераций добавляем единицу
+            std::cout << "Early termination on iteration: " << iteration + 1 << '\n';
+            break;
+        }
+    }
+
+    
+}
+
+void print_n(std::string* names, int quantity)
+{
+    std::cout << "Here is your sorted list:\n";
+	
+    for (int num = 0; num < quantity; ++num)
+    {
+        std::cout << "Name #" << (num + 1) << ": " << names[num] << std::endl;
+    }
+}
+
+
 
 int main()
 {
-
-    cout << "How many names would you like to enter? ";
-    int size = getValue();
-
-    const int length(size);
-       string *array = new string[length];
-    for (int startIndex = 0; startIndex < length; ++startIndex)
+    do
     {
-       cout <<  "Enter name #" << (startIndex + 1) << ":";
-       array[startIndex] = getName();
-    }
-    arraySort(array, length);
+        setlocale(LC_ALL, "Russian");
 
-    cout << "Here is your sorted list:  " << endl;
-    // Теперь, когда весь массив отсортирован - eвыводим его на экран
-    for (int index = 0; index < length; ++index)
-           std::cout << "Name #" << index + 1 << ": " << array[index] << endl;
-    delete[] array;
+        std::cout << "How many names would you like to enter? ";
+        int quantity{getValue()};
+    	
+        std::string * names = new (std::nothrow) std::string[quantity];
+        if (!names)
+        {
+            // Обработка этого случая
+            std::cout << "Could not allocate memory";
+            continue;
+        }
+
+        input_n(names, quantity);
+    	
+        sort_n(names, quantity);
+    	
+        print_n(names, quantity);
+    		
+        
+        delete[] names;
+        names = nullptr;
+       
+    } while (again());
     return 0;
 }
+
+
