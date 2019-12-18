@@ -7,26 +7,28 @@
 
 
 #include <iostream>
+#include <windows.h.
 
 // str указывает на первый символ строки C-style
 // Обратите внимание, str указывает на const char и мы не можем изменить это значение
 // Однако, мы можем указать str указывать на что-либо другое. Это не приведёт к изменению значения исходного аргумента
-void printCString(const char *str)
-{
-    // Пока мы не встретили нуль-терминатор
-    while (*str != '\0')
-    {
-        // Выводим текущий символ
-        std::cout << *str;
 
-        // И указываем str указывать на следующий символ
-        ++str;
-    }
+void print_char(char * message0
+{
+for (auto v : message)
+        {
+            std::cout << v << std::flush;      // Выводим символ;
+           Sleep(400);                                          // останавливаем программу на 0,4 сек.;
+        }
 }
 
 int main()
 {
     printCString("Hello, world!");
 
+    char message[]= "Hello, world!" ;
+    	
+    	
+    
     return 0;
 }
