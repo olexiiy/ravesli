@@ -306,16 +306,7 @@ int main()
         else
             std::cout << "You lose!\n";
     	
-    	/*if(!)
-        {
-            std::cout << "Allocation returned nullptr\n";
-    		continue;
-        }*/
-
-
-
-
-                
+                  
         
     } while (again());
     return 0;
