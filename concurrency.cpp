@@ -1,5 +1,5 @@
 #include <chrono>
-
+#include <condition_variable>
 #include <ctime> // раскомментируйте, если используете Code::Blocks
 #include <iostream>
 #include <mutex>
@@ -35,10 +35,10 @@ public:
 };
 
 const int32_t MAX_COUNTER = 50;
-
 std::queue<int32_t> collection;
 std::mutex simple_mutex;
 int32_t counter;
+std::condition_variable condition;
 
 int getRandomNumber(long min, long max)
 {
@@ -48,17 +48,16 @@ int getRandomNumber(long min, long max)
 }
 void prepare_data()
 {
-    std::mt19937 mersenne(static_cast<unsigned int>(time(0))); // инициализируем Вихрь Мерсенна стартовым числом основаным не времени
-    srand(static_cast<int>(mersenne())); // в качестве стартового числа используем Вихрь Мерсенна случайным стартовым числом//
-    rand(); // сбрасываем первый результат
 
     int32_t value {};
     std::thread th([&value]() {
         value = getRandomNumber(100, 1000);
     });
-    std::unique_lock<std::mutex> lock(simple_mutex);
+    th.join();
 
+    std::unique_lock<std::mutex> lock(simple_mutex);
     collection.push(value);
+    condition.notify_all();
     std::this_thread::sleep_for(std::chrono::milliseconds(value));
     lock.unlock();
 
@@ -75,7 +74,9 @@ void extract_data()
 {
 
     std::unique_lock<std::mutex> lock(simple_mutex);
-
+    condition.wait_for(lock, std::chrono::milliseconds(1000), []() {
+        return !collection.empty();
+    });
     std::cout << "Value: " << collection.back() << std::endl;
 
     collection.pop();
@@ -90,6 +91,9 @@ void extract_data()
 int32_t main(const int32_t argc, const char* argv[])
 {
     Timer t;
+    std::mt19937 mersenne(static_cast<unsigned int>(time(0))); // инициализируем Вихрь Мерсенна стартовым числом основаным не времени
+    srand(static_cast<int>(mersenne())); // в качестве стартового числа используем Вихрь Мерсенна случайным стартовым числом//
+    rand(); // сбрасываем первый результат
     std::thread prepare_thread(prepare_data);
     std::thread extract_thread(extract_data);
 
@@ -99,3 +103,4 @@ int32_t main(const int32_t argc, const char* argv[])
     std::cout << "Time elapsed: " << t.elapsed() << '\n';
     return EXIT_SUCCESS;
 }
+
