@@ -42,13 +42,9 @@ double calculateHeight(double initialHeight, int seconds)
 // Выводим высоту, на которой находится мячик после каждой секунды падения
 void printHeight(double height, int seconds)
 {
-	if (height > 0.0)
-	{
-		std::cout << "At " << seconds << " seconds, the ball is at height:\t" << height <<
-			" meters\n";
-	}
-	else
-		std::cout << "At " << seconds << " seconds, the ball is on the ground.\n";
+	std::cout << "At " << seconds << " seconds, the ball is at height:\t" << height <<
+	" meters\n";
+	 
 }
 
 void calculateAndPrintHeight(double initialHeight, int seconds)
@@ -67,7 +63,10 @@ int main()
 	do
 	{
 		height = calculateHeight(initialHeight, seconds);
-		printHeight(height, seconds);
+		if(height > 0.0) {
+		printHeight(height, seconds); }
+		else{
+		s std::cout << "At " << sqrt(2*initialHeight/gravity) << " seconds, the ball is on the ground.\n";}
 		++seconds;
 	} while (height > 0.0);
 
